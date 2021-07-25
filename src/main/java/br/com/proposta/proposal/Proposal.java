@@ -1,6 +1,6 @@
 package br.com.proposta.proposal;
 
-import br.com.proposta.config.Document;
+import br.com.proposta.config.validation.Document;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,5 +39,9 @@ public class Proposal {
         this.name = name;
         this.address = address;
         this.salary = salary;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

@@ -1,4 +1,4 @@
-package br.com.proposta.config;
+package br.com.proposta.config.validation;
 
 
 import org.hibernate.validator.constraints.CompositionType;
@@ -25,7 +25,7 @@ import static java.lang.annotation.ElementType.FIELD;
 @Target({FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Document {
-    String message() default "Isso não é um CPF ou CNPJ válido";
+    String message() default "O documento não é um CPF ou CNPJ válido";
 
     Class<?>[] groups() default { };
 

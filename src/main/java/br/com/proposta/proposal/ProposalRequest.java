@@ -1,6 +1,6 @@
 package br.com.proposta.proposal;
 
-import br.com.proposta.config.Document;
+import br.com.proposta.config.validation.Document;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
