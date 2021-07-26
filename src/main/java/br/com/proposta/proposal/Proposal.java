@@ -2,10 +2,7 @@ package br.com.proposta.proposal;
 
 import br.com.proposta.config.validation.Document;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
@@ -18,6 +15,8 @@ public class Proposal {
 
     @Document
     private String document;
+    @Enumerated(EnumType.STRING)
+    private Restrictions restrictions = Restrictions.SEM_RESTRICAO;
     @Email @NotBlank
     private String email;
     @NotBlank
