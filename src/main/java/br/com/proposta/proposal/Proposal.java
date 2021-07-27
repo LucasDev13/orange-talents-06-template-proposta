@@ -1,6 +1,8 @@
 package br.com.proposta.proposal;
 
 import br.com.proposta.config.validation.Document;
+import br.com.proposta.config.validation.UnicValue;
+import org.hibernate.annotations.CollectionId;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -13,7 +15,7 @@ public class Proposal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Document
+    @Column(unique = false)
     private String document;
     @Enumerated(EnumType.STRING)
     private Restrictions restrictions = Restrictions.SEM_RESTRICAO;

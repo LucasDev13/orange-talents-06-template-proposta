@@ -1,6 +1,6 @@
 package br.com.proposta.config.validation;
 
-public class ErrorRequest {
+public class ErrorRequest{
 
     private String field;
     private String error;

@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestControllerAdvice
 public class ErrorValidationHandler {
@@ -19,8 +22,8 @@ public class ErrorValidationHandler {
     @Autowired MessageSource messageSource;
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public List<ErrorRequest> handle(MethodArgumentNotValidException exception){
+    @ExceptionHandler({MethodArgumentNotValidException.class})
+    public List<ErrorRequest> handle(MethodArgumentNotValidException exception) {
         List<ErrorRequest> requests = new ArrayList<>();
         List<FieldError> fieldErrorList = exception.getBindingResult().getFieldErrors();
         fieldErrorList.forEach(e -> {
@@ -28,7 +31,6 @@ public class ErrorValidationHandler {
             ErrorRequest errorRequest = new ErrorRequest(e.getField(), message);
             requests.add(errorRequest);
         });
-
         return requests;
     }
 }

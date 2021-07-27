@@ -1,13 +1,16 @@
 package br.com.proposta.proposal;
 
 import br.com.proposta.config.validation.Document;
+import br.com.proposta.config.validation.UnicValue;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 public class ProposalRequest {
 
-    @Document @NotBlank @NotNull @NotEmpty
+    @UnicValue(domainClass = Proposal.class, fieldName = "document")
+    @Document
+    @NotBlank @NotNull @NotEmpty
     private String document;
     @Email @NotBlank @NotNull @NotEmpty
     private String email;
