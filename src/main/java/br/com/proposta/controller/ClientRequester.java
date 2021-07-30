@@ -19,7 +19,7 @@ public interface ClientRequester {
     RequesterDataResponse sendRequester(@RequestBody RequesterDataRequest requesterDataRequest);
 
     default RequesterDataResponse analysiFallback(Exception exception){
-        if(exception.getClass() == FeignException.UnprocessableEntity.class){
+        if(exception.getClass() == FeignException.UnprocessableEntity.class || exception.getMessage().startsWith("422")){
             return new RequesterDataResponse(AnalysisRestriction.COM_RESTRICAO);
         }
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não foi possivel processar essa solicitação");
