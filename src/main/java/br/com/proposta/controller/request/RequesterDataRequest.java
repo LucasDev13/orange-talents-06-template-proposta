@@ -1,6 +1,5 @@
 package br.com.proposta.controller.request;
 
-import br.com.proposta.proposal.Proposal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RequesterDataRequest{

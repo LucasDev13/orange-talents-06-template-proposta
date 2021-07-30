@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableFeignClients
+@EnableJpaRepositories(enableDefaultTransactions = false)
 public class PropostaApplication {
 
 	public static void main(String[] args) {

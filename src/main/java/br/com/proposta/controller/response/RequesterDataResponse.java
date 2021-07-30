@@ -17,4 +17,11 @@ public class RequesterDataResponse {
     public AnalysisRestriction getAnalysisRestriction() {
         return analysisRestriction;
     }
+
+    @Override
+    public String toString() {
+        return "RequesterDataResponse{" +
+                "analysisRestriction=" + analysisRestriction +
+                '}';
+    }
 }

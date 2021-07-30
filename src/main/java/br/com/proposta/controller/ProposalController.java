@@ -39,12 +39,14 @@ public class ProposalController {
         var convert = request.toModel();
         var saved = proposalRepository.save(convert);
         saved = clientDataRequester(saved);
+        proposalRepository.save(saved);
         return ResponseEntity.created(uriComponentsBuilder.path("/proposal/{id}").buildAndExpand(saved.getId()).toUri()).body(saved);
     }
 
     public Proposal clientDataRequester(Proposal proposal){
         var requesterDataRequest = new RequesterDataRequest(proposal.getDocument(), proposal.getName(), proposal.getId());
         var response = clientRequester.sendRequester(requesterDataRequest);
+        System.out.println(response.toString());
         return new Proposal(proposal, response.getAnalysisRestriction().convertStatus());
     }
 }
