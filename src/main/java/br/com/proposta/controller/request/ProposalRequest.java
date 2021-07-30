@@ -1,7 +1,8 @@
-package br.com.proposta.proposal;
+package br.com.proposta.controller.request;
 
 import br.com.proposta.config.validation.Document;
 import br.com.proposta.config.validation.UnicValue;
+import br.com.proposta.proposal.Proposal;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
@@ -21,7 +22,7 @@ public class ProposalRequest {
     @Positive @NotNull
     private BigDecimal salary;
 
-    Proposal toModel(){
+    public Proposal toModel(){
         return new Proposal(this.document, this.email, this.name, this.address, this.salary);
     }
 
