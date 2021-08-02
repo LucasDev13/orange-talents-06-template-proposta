@@ -22,6 +22,9 @@ import javax.validation.Valid;
 @RequestMapping(value = "/proposal")
 public class ProposalController {
 
+//    private final Tracer tracer;
+
+
     private ProposalRepository proposalRepository;
     private ClientRequester clientRequester;
 
