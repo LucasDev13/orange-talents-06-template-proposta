@@ -25,6 +25,8 @@ public class Proposal {
     @Positive @NotNull
     private BigDecimal salary;
 
+    private String card;
+
     @Deprecated
     public Proposal(){
     }
@@ -74,5 +76,9 @@ public class Proposal {
 
     public BigDecimal getSalary() {
         return salary;
+    }
+
+    public void addCard(String card){
+        this.card = card;
     }
 }

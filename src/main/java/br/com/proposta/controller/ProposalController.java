@@ -22,17 +22,16 @@ import javax.validation.Valid;
 @RequestMapping(value = "/proposal")
 public class ProposalController {
 
-//    private final Tracer tracer;
-
-
     private ProposalRepository proposalRepository;
     private ClientRequester clientRequester;
+    private ClientCard clientCard;
 
     @Autowired
     public ProposalController(ProposalRepository proposalRepository,
-                              ClientRequester clientRequester) {
+                              ClientRequester clientRequester, ClientCard clientCard) {
         this.proposalRepository = proposalRepository;
         this.clientRequester = clientRequester;
+        this.clientCard = clientCard;
     }
 
     @PostMapping
@@ -42,6 +41,7 @@ public class ProposalController {
         var convert = request.toModel();
         var saved = proposalRepository.save(convert);
         saved = clientDataRequester(saved);
+        System.out.println("id: " + saved.getId().toString());
         proposalRepository.save(saved);
         return ResponseEntity.created(uriComponentsBuilder.path("/proposal/{id}").buildAndExpand(saved.getId()).toUri()).body(saved);
     }
