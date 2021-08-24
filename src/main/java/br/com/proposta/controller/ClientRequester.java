@@ -18,8 +18,6 @@ public interface ClientRequester {
     @PostMapping
     RequesterDataResponse sendRequester(@RequestBody RequesterDataRequest requesterDataRequest);
 
-
-
     default RequesterDataResponse analysiFallback(Exception exception){
         if(exception.getClass() == FeignException.UnprocessableEntity.class || exception.getMessage().startsWith("422")){
             return new RequesterDataResponse(AnalysisRestriction.COM_RESTRICAO);

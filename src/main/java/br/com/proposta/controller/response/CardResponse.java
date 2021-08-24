@@ -1,4 +1,4 @@
-package br.com.proposta.controller.request;
+package br.com.proposta.controller.response;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -81,4 +81,18 @@ public class Proposal {
     public void addCard(String card){
         this.card = card;
     }
+
+    @Override
+    public String toString() {
+        return "Proposal{" +
+                "id=" + id +
+                ", document='" + document + '\'' +
+                ", statusRequester=" + statusRequester +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", salary=" + salary +
+                ", card='" + card + '\'' +
+                '}';
+    }
 }
