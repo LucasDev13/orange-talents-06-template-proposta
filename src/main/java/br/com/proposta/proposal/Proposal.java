@@ -78,6 +78,10 @@ public class Proposal {
         return salary;
     }
 
+    public String getCard() {
+        return card;
+    }
+
     public void addCard(String card){
         this.card = card;
     }
