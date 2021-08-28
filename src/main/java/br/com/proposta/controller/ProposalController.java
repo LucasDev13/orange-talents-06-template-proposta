@@ -18,7 +18,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/proposal")
+@RequestMapping(value = "/api/proposal")
 public class ProposalController {
 
     private ProposalRepository proposalRepository;
