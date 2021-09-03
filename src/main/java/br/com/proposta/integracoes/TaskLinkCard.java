@@ -40,7 +40,6 @@ public class TaskLinkCard {
     }
 
     private CartaoResponse sendClientCard(Proposal proposal){
-        var cartaoResponse = clientCard.sendCards(proposal.getId().toString());
-        return cartaoResponse;
+        return clientCard.sendCards(proposal.getId().toString());
     }
 }
