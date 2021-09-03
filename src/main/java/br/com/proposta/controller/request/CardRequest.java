@@ -1,14 +1,11 @@
 package br.com.proposta.controller.request;
 
-import br.com.proposta.card.BlockedStatus;
 import br.com.proposta.card.Card;
 import br.com.proposta.repository.CardRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 public class CardRequest {
 
@@ -19,27 +16,21 @@ public class CardRequest {
     @NotBlank
     private String userAgent;
 
-    public CardRequest() {
-    }
-
     public CardRequest(String idCard, String ipClient, String userAgent) {
         this.idCard = idCard;
         this.ipClient = ipClient;
         this.userAgent = userAgent;
     }
 
-    public Card toModel(){
-        return new Card(this.idCard, ipClient, userAgent);
-    }
-
     public Card verifyBlockedCard(String idCard, CardRepository repository) {
         Card returnQuery = repository.findByIdCard(idCard);
         if (returnQuery != null){
-            if (returnQuery.getBlockedStatus() == BlockedStatus.NOT_BLOCKED){
-                returnQuery.setBlockedStatus();
+            if(returnQuery.isActive()){
+                returnQuery.block();
+                return returnQuery;
             }
         }
-        return returnQuery;
+        throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @Override

@@ -12,7 +12,7 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank
-    private String idCard;
+    private String cardNumber;
     @NotNull
     private Instant instantBlock;
     @NotBlank
@@ -20,7 +20,7 @@ public class Card {
     @NotBlank
     private String userAgent;
     @Enumerated(EnumType.STRING)
-    private BlockedStatus blockedStatus;
+    private Status status;
 
     @Deprecated
     public Card() {
@@ -28,30 +28,18 @@ public class Card {
 
     public Card(String idCard, String ipClient,
                 String userAgent) {
-        this.idCard = idCard;
+        this.cardNumber = idCard;
         this.instantBlock = Instant.now();
         this.ipClient = ipClient;
         this.userAgent = userAgent;
-        this.blockedStatus = BlockedStatus.NOT_BLOCKED;
+        this.status = Status.ACTIVE;
     }
 
-    public BlockedStatus getBlockedStatus() {
-        return blockedStatus;
+    public boolean isActive() {
+        return this.status == Status.ACTIVE;
     }
 
-    public void setBlockedStatus(){
-        this.blockedStatus = BlockedStatus.BLOCKED;
-    }
-
-    @Override
-    public String toString() {
-        return "Card{" +
-                "id=" + id +
-                ", idCard='" + idCard + '\'' +
-                ", instantBlock=" + instantBlock +
-                ", ipClient='" + ipClient + '\'' +
-                ", userAgent='" + userAgent + '\'' +
-                ", blockedStatus=" + blockedStatus +
-                '}';
+    public void block() {
+        this.status = Status.BLOCKED;
     }
 }

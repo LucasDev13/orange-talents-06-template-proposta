@@ -33,31 +33,17 @@ public class CardController {
 
     @PostMapping("/{idCard}/bloqueio-cartao")
     @Transactional
-    public ResponseEntity<?> saveCardBlock(@Valid @PathVariable("idCard") String idCard,
-            CardRequest cardRequest) {
-        //Caso o cartão esteja já bloqueado devemos retornar um erro de negócio.
-
+    public ResponseEntity<?> saveCardBlock(@Valid @PathVariable("idCard") String idCard) {
         String ipClient = request.getRemoteHost();
         if (ipClient == null || "".equals(ipClient)) {
             ipClient = request.getRemoteHost();
         }
         String userAgent = request.getHeader("User-Agent");
 
-        cardRequest = new CardRequest(idCard, ipClient, userAgent);
-        var card = cardRequest.toModel();
-        cardRepository.save(card);
-        try {
-            //preciso salvar o cartão antes de verificar.
-            var resultCard = cardRequest.verifyBlockedCard(idCard, cardRepository);
-            //atualiza o cartão
-            cardRepository.save(card);
-            System.out.println("Controller result: " + card);
-        }catch (RuntimeException e){
-//            return ResponseEntity.unprocessableEntity().build();
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
-        }
+        var cardRequest = new CardRequest(idCard, ipClient, userAgent);
+        var resultCard = cardRequest.verifyBlockedCard(idCard, cardRepository);
+        cardRepository.save(resultCard);
 
-        return ResponseEntity.ok(card.toString());
+        return ResponseEntity.ok(resultCard.toString());
     }
-
 }
