@@ -22,14 +22,20 @@ public class CardRequest {
         this.userAgent = userAgent;
     }
 
+    public Card toModel(String idCard, String ipClient, String userAgent){
+        return new Card(idCard, ipClient, userAgent);
+    }
+
     public Card verifyBlockedCard(String idCard, CardRepository repository) {
-        Card returnQuery = repository.findByIdCard(idCard);
-        if (returnQuery != null){
-            if(returnQuery.isActive()){
-                returnQuery.block();
-                return returnQuery;
-            }
-        }
+        var returnQuery = repository.findByCardNumber(idCard);
+        //podemos buscar o cartão na proposta para incluir no cartão
+        //por que ele vai ser criado com o valor ativo.
+//        if (returnQuery.isPresent()){
+//            if(returnQuery.isActive()){
+//                returnQuery.block();
+//                return returnQuery;
+//            }
+//        }
         throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
     }
 

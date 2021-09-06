@@ -33,7 +33,13 @@ public class CardController {
 
     @PostMapping("/{idCard}/bloqueio-cartao")
     @Transactional
-    public ResponseEntity<?> saveCardBlock(@Valid @PathVariable("idCard") String idCard) {
+    public ResponseEntity<?> create(@PathVariable() String idCard) {
+        //CARTÃO NÃO ENCONTRADO RETORNA 404 - NOT_FOUND
+        var returnQuery =cardRepository.findByCardNumber(idCard);
+        if (returnQuery.isPresent()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
         String ipClient = request.getRemoteHost();
         if (ipClient == null || "".equals(ipClient)) {
             ipClient = request.getRemoteHost();
@@ -41,9 +47,17 @@ public class CardController {
         String userAgent = request.getHeader("User-Agent");
 
         var cardRequest = new CardRequest(idCard, ipClient, userAgent);
-        var resultCard = cardRequest.verifyBlockedCard(idCard, cardRepository);
-        cardRepository.save(resultCard);
+        var card =cardRequest.toModel(idCard, ipClient, userAgent);
 
-        return ResponseEntity.ok(resultCard.toString());
+        //CARTÃO JÁ BLOQUEADO RETORNA 422 HttpStatus.UNPROCESSABLE_ENTITY
+        if (!card.isActive()){
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
+        cardRepository.save(card);
+//        var resultCard = cardRequest.verifyBlockedCard(idCard, cardRepository);
+//        cardRepository.save(card);
+        //200 em caso de bloqueio com sucesso
+        return ResponseEntity.ok().build();
     }
 }

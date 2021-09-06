@@ -1,9 +1,11 @@
 package br.com.proposta.integracoes;
 
+import br.com.proposta.card.Card;
 import br.com.proposta.controller.ClientCard;
 import br.com.proposta.controller.response.CartaoResponse;
 import br.com.proposta.proposal.Proposal;
 import br.com.proposta.proposal.StatusRequester;
+import br.com.proposta.repository.CardRepository;
 import br.com.proposta.repository.ProposalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -20,11 +22,14 @@ import java.util.List;
 public class TaskLinkCard {
 
     private ProposalRepository proposalRepository;
+    private CardRepository cardRepository;
     private ClientCard clientCard;
 
     @Autowired
-    public TaskLinkCard(ProposalRepository proposalRepository, ClientCard clientCard) {
+    public TaskLinkCard(ProposalRepository proposalRepository,
+                        CardRepository cardRepository, ClientCard clientCard) {
         this.proposalRepository = proposalRepository;
+        this.cardRepository = cardRepository;
         this.clientCard = clientCard;
     }
 

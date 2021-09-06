@@ -1,5 +1,7 @@
 package br.com.proposta.proposal;
 
+import br.com.proposta.card.Card;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
@@ -24,6 +26,9 @@ public class Proposal {
 
     @Positive @NotNull
     private BigDecimal salary;
+
+//    @OneToOne(mappedBy = "proposal", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+//    private Card card;
 
     private String card;
 
@@ -78,25 +83,7 @@ public class Proposal {
         return salary;
     }
 
-    public String getCard() {
-        return card;
-    }
-
-    public void addCard(String card){
-        this.card = card;
-    }
-
-    @Override
-    public String toString() {
-        return "Proposal{" +
-                "id=" + id +
-                ", document='" + document + '\'' +
-                ", statusRequester=" + statusRequester +
-                ", email='" + email + '\'' +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", salary=" + salary +
-                ", card='" + card + '\'' +
-                '}';
+    public void addCard(String idCard){
+        this.card = idCard;
     }
 }

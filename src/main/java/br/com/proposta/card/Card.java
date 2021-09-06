@@ -1,5 +1,7 @@
 package br.com.proposta.card;
 
+import br.com.proposta.proposal.Proposal;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -11,16 +13,17 @@ public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
     private String cardNumber;
     @NotNull
     private Instant instantBlock;
-    @NotBlank
     private String ipClient;
-    @NotBlank
     private String userAgent;
     @Enumerated(EnumType.STRING)
     private Status status;
+
+//    @OneToOne @NotNull
+//    @JoinColumn(name = "idProposal")
+//    private Proposal proposal;
 
     @Deprecated
     public Card() {
@@ -35,11 +38,21 @@ public class Card {
         this.status = Status.ACTIVE;
     }
 
+    public Card(String cardNumber) {
+        this.cardNumber = cardNumber;
+        this.instantBlock = Instant.now();
+        this.status = Status.ACTIVE;
+    }
+
     public boolean isActive() {
         return this.status == Status.ACTIVE;
     }
 
     public void block() {
         this.status = Status.BLOCKED;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
     }
 }
