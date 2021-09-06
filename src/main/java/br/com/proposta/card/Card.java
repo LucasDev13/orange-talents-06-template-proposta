@@ -48,6 +48,10 @@ public class Card {
         return this.status == Status.ACTIVE;
     }
 
+    public boolean isBlock() {
+        return this.status == Status.BLOCKED;
+    }
+
     public void block() {
         this.status = Status.BLOCKED;
     }
@@ -55,4 +59,6 @@ public class Card {
     public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
     }
+
+
 }

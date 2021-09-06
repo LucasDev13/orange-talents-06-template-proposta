@@ -26,19 +26,6 @@ public class CardRequest {
         return new Card(idCard, ipClient, userAgent);
     }
 
-    public Card verifyBlockedCard(String idCard, CardRepository repository) {
-        var returnQuery = repository.findByCardNumber(idCard);
-        //podemos buscar o cartão na proposta para incluir no cartão
-        //por que ele vai ser criado com o valor ativo.
-//        if (returnQuery.isPresent()){
-//            if(returnQuery.isActive()){
-//                returnQuery.block();
-//                return returnQuery;
-//            }
-//        }
-        throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
-    }
-
     @Override
     public String toString() {
         return "CardRequest{" +
