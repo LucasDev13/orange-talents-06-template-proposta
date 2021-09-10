@@ -27,10 +27,10 @@ public class Proposal {
     @Positive @NotNull
     private BigDecimal salary;
 
-//    @OneToOne(mappedBy = "proposal", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-//    private Card card;
-
-    private String card;
+    //mudar esse mapeamento para criar o campo do cartão na proposta
+    //@OneToOne(mappedBy = "proposal", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToOne
+    private Card card;
 
     @Deprecated
     public Proposal(){
@@ -83,7 +83,7 @@ public class Proposal {
         return salary;
     }
 
-    public void addCard(String idCard){
-        this.card = idCard;
+    public void addCardProposal(Card card){
+        this.card = card;
     }
 }

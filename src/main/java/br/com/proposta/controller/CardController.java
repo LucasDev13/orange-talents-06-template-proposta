@@ -33,10 +33,12 @@ public class CardController {
 
     @PostMapping("/{idCard}/bloqueio-cartao")
     @Transactional
-    public ResponseEntity<?> create(@PathVariable() String idCard) {
+    public ResponseEntity<?> create(@Valid @PathVariable() String idCard) {
         var returnQuery =cardRepository.findByCardNumber(idCard);
         if (returnQuery.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+        var card = returnQuery.get();
 
         String ipClient = request.getRemoteHost();
         if (ipClient == null || "".equals(ipClient)) {
@@ -45,7 +47,6 @@ public class CardController {
         String userAgent = request.getHeader("User-Agent");
 
         var cardRequest = new CardRequest(idCard, ipClient, userAgent);
-        var card =cardRequest.toModel(idCard, ipClient, userAgent);
 
         if (card.isBlock())
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);

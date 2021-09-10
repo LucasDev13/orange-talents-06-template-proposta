@@ -40,6 +40,8 @@ public class ProposalController {
         var convert = request.toModel();
         var saved = proposalRepository.save(convert);
         saved = clientDataRequester(saved);
+
+        //update para salvar o status da proposta
         proposalRepository.save(saved);
         return ResponseEntity.created(uriComponentsBuilder.path("/proposal/{id}").buildAndExpand(saved.getId()).toUri()).body(saved);
     }

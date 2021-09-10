@@ -14,16 +14,15 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String cardNumber;
-    @NotNull
     private Instant instantBlock;
     private String ipClient;
     private String userAgent;
     @Enumerated(EnumType.STRING)
     private Status status;
 
-//    @OneToOne @NotNull
-//    @JoinColumn(name = "idProposal")
-//    private Proposal proposal;
+    @OneToOne
+    @JoinColumn(name = "idProposal")
+    private Proposal proposal;
 
     @Deprecated
     public Card() {
@@ -40,7 +39,6 @@ public class Card {
 
     public Card(String cardNumber) {
         this.cardNumber = cardNumber;
-        this.instantBlock = Instant.now();
         this.status = Status.ACTIVE;
     }
 
@@ -56,7 +54,7 @@ public class Card {
         this.status = Status.BLOCKED;
     }
 
-    public void setCardNumber(String cardNumber) {
+    public void addCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
     }
 
