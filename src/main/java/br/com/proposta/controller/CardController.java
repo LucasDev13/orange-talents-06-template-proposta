@@ -40,6 +40,9 @@ public class CardController {
         var returnCard =cardRepository.findByCardNumber(idCard);
         if (returnCard.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        var card = returnCard.get();
+        if (card.isBlock())
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
 
         String ipClient = request.getRemoteHost();
         if (ipClient == null || "".equals(ipClient)) {
@@ -47,15 +50,11 @@ public class CardController {
         }
         String userAgent = request.getHeader("User-Agent");
 
-        var card = returnCard.get();
+
         var cardRequest = new CardRequest(card.getCardNumber(),
                 ipClient, userAgent,  card.getStatus());
         card.card(cardRequest);
-
-        if (card.isBlock())
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
-
-        //não estou atualizando, eu crio um novo objeto
+        card.block();
         cardRepository.save(card);
         return ResponseEntity.ok().build();
     }
