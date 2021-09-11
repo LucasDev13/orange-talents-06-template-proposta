@@ -31,14 +31,15 @@ public class CardController {
         this.cardRepository = cardRepository;
     }
 
-    @PostMapping("/{idCard}/bloqueio-cartao")
+    /**
+     * Nesta funcionalidade eu preciso bloquear o cartão.
+     */
+    @PostMapping("/{idCard}/block-card")
     @Transactional
     public ResponseEntity<?> create(@Valid @PathVariable() String idCard) {
-        var returnQuery =cardRepository.findByCardNumber(idCard);
-        if (returnQuery.isEmpty())
+        var returnCard =cardRepository.findByCardNumber(idCard);
+        if (returnCard.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-
-        var card = returnQuery.get();
 
         String ipClient = request.getRemoteHost();
         if (ipClient == null || "".equals(ipClient)) {
@@ -46,11 +47,15 @@ public class CardController {
         }
         String userAgent = request.getHeader("User-Agent");
 
-        var cardRequest = new CardRequest(idCard, ipClient, userAgent);
+        var card = returnCard.get();
+        var cardRequest = new CardRequest(card.getCardNumber(),
+                ipClient, userAgent,  card.getStatus());
+        card.card(cardRequest);
 
         if (card.isBlock())
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
 
+        //não estou atualizando, eu crio um novo objeto
         cardRepository.save(card);
         return ResponseEntity.ok().build();
     }

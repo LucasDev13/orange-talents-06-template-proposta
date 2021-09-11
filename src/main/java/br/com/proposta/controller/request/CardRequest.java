@@ -1,9 +1,7 @@
 package br.com.proposta.controller.request;
 
 import br.com.proposta.card.Card;
-import br.com.proposta.repository.CardRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
+import br.com.proposta.card.Status;
 
 import javax.validation.constraints.NotBlank;
 
@@ -16,14 +14,29 @@ public class CardRequest {
     @NotBlank
     private String userAgent;
 
-    public CardRequest(String idCard, String ipClient, String userAgent) {
+    private Status status;
+
+    public CardRequest(String idCard, String ipClient, String userAgent, Status status) {
         this.idCard = idCard;
         this.ipClient = ipClient;
         this.userAgent = userAgent;
+        this.status = status;
     }
 
-    public Card toModel(String idCard, String ipClient, String userAgent){
-        return new Card(idCard, ipClient, userAgent);
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public String getIpClient() {
+        return ipClient;
+    }
+
+    public String getUserAgent() {
+        return userAgent;
+    }
+
+    public Status getStatus() {
+        return status;
     }
 
     @Override

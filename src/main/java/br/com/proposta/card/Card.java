@@ -1,5 +1,6 @@
 package br.com.proposta.card;
 
+import br.com.proposta.controller.request.CardRequest;
 import br.com.proposta.proposal.Proposal;
 
 import javax.persistence.*;
@@ -29,17 +30,24 @@ public class Card {
     }
 
     public Card(String idCard, String ipClient,
-                String userAgent) {
+                String userAgent, Status status) {
         this.cardNumber = idCard;
         this.instantBlock = Instant.now();
         this.ipClient = ipClient;
         this.userAgent = userAgent;
-        this.status = Status.ACTIVE;
+        this.status = status;
     }
 
     public Card(String cardNumber) {
         this.cardNumber = cardNumber;
         this.status = Status.ACTIVE;
+    }
+
+    public void card(CardRequest cardRequest){
+        this.cardNumber = cardRequest.getIdCard();
+        this.ipClient = cardRequest.getIpClient();
+        this.userAgent = cardRequest.getUserAgent();
+        this.status = cardRequest.getStatus();
     }
 
     public boolean isActive() {
@@ -58,5 +66,11 @@ public class Card {
         this.cardNumber = cardNumber;
     }
 
+    public String getCardNumber() {
+        return cardNumber;
+    }
 
+    public Status getStatus() {
+        return status;
+    }
 }
